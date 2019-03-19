@@ -1,0 +1,71 @@
+# node_name:[[adjacent_node,weight]]
+graph = {"a":[["b",1],["c",3]],"b":[["a",1],["c",1]],"c":[["a",3],["b",1]]}
+
+class create_node():
+
+    def __init__(self,name,adjacent_nodes,visited):
+
+        self.name = name
+
+        self.adjacent_nodes = {}
+        for i in range(len(adjacent_nodes)):
+            self.adjacent_nodes[adjacent_nodes[i][0]] = adjacent_nodes[i][1]
+
+        self.visited = visited
+        return
+
+    def add_to_order(self,prev_node,weight_from_start):
+
+        order[self.name] = [prev_node,weight_from_start]
+        self.visited = True
+        unvisited_list.pop(self.name)
+        return
+
+    def get_shortest_node(self):
+
+        shortest_node = ""
+
+        for adjacent_node in self.adjacent_nodes:
+
+            if shortest_node == "":
+                shortest_node = adjacent_node
+
+            elif self.adjacent_nodes[adjacent_node] < self.adjacent_nodes[shortest_node]:
+
+                shortest_node = adjacent_node
+
+        print("Node: "+self.name)
+        print("Shortest node: "+shortest_node)
+        return shortest_node
+
+
+# Dictionary of nodes and distances
+# {node_name:[previous_node,total_weight_from_start]}
+order = {}
+
+start = "a"
+end = "c"
+
+print(str(graph))
+
+# Create unvisited list
+unvisited_list = {}
+for node in graph:
+    unvisited_list[node] = float("inf")
+
+for current_node in graph:
+
+    nodeobj = create_node(current_node,graph[current_node],False)
+
+    if nodeobj.name == start:
+
+        nodeobj.add_to_order("a",0)
+        continue
+
+    if nodeobj.visited == False:
+
+        nodeobj.add_to_order()
+        nodeobj.get_shortest_node()
+
+
+print(str(order))
